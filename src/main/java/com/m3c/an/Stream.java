@@ -20,7 +20,7 @@ public class Stream {
             onlyLettersToLowercase[c] = c;
         }
         for (char c = 'A'; c <= 'Z'; c++) {
-            onlyLettersToLowercase[c] = c;
+            onlyLettersToLowercase[c] = Character.toLowerCase(c);
         }
     }
 
@@ -29,7 +29,7 @@ public class Stream {
     public void getLines() {
         long a, b;
         a = System.currentTimeMillis();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader("resources/aSampleFile"))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader("resources/aLargeFile"))) {
             String line;
             while ((line = fileReader.readLine()) != null) {
                 lineToWordsToMap(line);
@@ -42,12 +42,11 @@ public class Stream {
         }
         b = System.currentTimeMillis();
 
-        printMostFrequent(sortedEntries(map));
         System.out.println((b - a)/1000);
 
     }
 
-    public void lineToWordsToMap(String line) {
+    private void lineToWordsToMap(String line) {
         char[] characters = line.toCharArray();
         StringBuilder sb = new StringBuilder(16);
         for (int index = 0; index < characters.length; index++) {
@@ -72,7 +71,11 @@ public class Stream {
         }
     }
 
-    private static List<Map.Entry<String, AtomicInteger>> sortedEntries(
+    public Map<String, AtomicInteger> getMap() {
+        return this.map;
+    }
+
+    public static List<Map.Entry<String, AtomicInteger>> sortedEntries(
             Map<String, AtomicInteger> map) {
         return map.entrySet()
                 .stream()

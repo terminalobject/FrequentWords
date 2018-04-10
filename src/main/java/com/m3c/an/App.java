@@ -1,8 +1,8 @@
 package com.m3c.an;
 
 /**
- * Hello world!
- *
+ * Author: Alessandro Noiato
+ * Assignment:
  */
 public class App 
 {
@@ -11,6 +11,7 @@ public class App
     {
         Stream stream = new Stream();
             stream.getLines();
+            stream.printMostFrequent(stream.sortedEntries(stream.getMap()));
     }
 
 }
