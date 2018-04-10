@@ -20,7 +20,7 @@ public class StreamTest {
     }
 
 //    @Test
-//    public void wordsToMapTest() {
+//    public void lineToWordsToMapTest() {
 //        Stream stream = new Stream();
 //        Map<String, Integer> map = new HashMap<>();
 //        map.put("this", 1);

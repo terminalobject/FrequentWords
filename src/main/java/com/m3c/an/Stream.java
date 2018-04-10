@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.KeyStore;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -28,11 +27,12 @@ public class Stream {
     private Consumer<String> countWords = word -> map.computeIfAbsent(word, (w) -> new AtomicInteger(0)).incrementAndGet();
 
     public void getLines() {
-
+        long a, b;
+        a = System.currentTimeMillis();
         try (BufferedReader fileReader = new BufferedReader(new FileReader("resources/aSampleFile"))) {
             String line;
             while ((line = fileReader.readLine()) != null) {
-                lineToWordsToMap(line, countWords);
+                lineToWordsToMap(line);
             }
 
         } catch (FileNotFoundException e) {
@@ -40,14 +40,14 @@ public class Stream {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        List<Map.Entry<String, AtomicInteger>> orderedList = sortedEntries(map);
-        for (int i = orderedList.size() - 1; i > orderedList.size() - 4; i--) {
-            System.out.println(orderedList.get(i).getKey() + " : "
-                    + orderedList.get(i).getValue());
-        }
+        b = System.currentTimeMillis();
+
+        printMostFrequent(sortedEntries(map));
+        System.out.println((b - a)/1000);
+
     }
 
-    public void lineToWordsToMap(String line, Consumer<String> countWords) {
+    public void lineToWordsToMap(String line) {
         char[] characters = line.toCharArray();
         StringBuilder sb = new StringBuilder(16);
         for (int index = 0; index < characters.length; index++) {
@@ -68,11 +68,8 @@ public class Stream {
         }
         // Send the last word to the consumer
         if (sb.length() > 0) {
-            countWords.accept(sb.toString());
+            this.countWords.accept(sb.toString());
         }
-    }
-    public Map<String, AtomicInteger> getMap() {
-        return this.map;
     }
 
     private static List<Map.Entry<String, AtomicInteger>> sortedEntries(
@@ -81,6 +78,12 @@ public class Stream {
                 .stream()
                 .sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
                 .collect(Collectors.toList());
+    }
+    public void printMostFrequent(List<Map.Entry<String, AtomicInteger>> orderedList) {
+        for (int i = orderedList.size() - 1; i > orderedList.size() - 4; i--) {
+            System.out.println(orderedList.get(i).getKey() + " : "
+                    + orderedList.get(i).getValue());
+        }
     }
 }
 
