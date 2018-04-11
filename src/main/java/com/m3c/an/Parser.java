@@ -24,7 +24,7 @@ public class Parser {
         }
     }
 
-    private Consumer<String> countWords = word -> ++map.computeIfAbsent(word, (w) -> new Integer);
+    private Consumer<String> countWords = word -> map.computeIfAbsent(word, (w) -> new Integer(1));
 
     public void getLines(String filename) {
         long a, b;
@@ -75,15 +75,15 @@ public class Parser {
         return this.map;
     }
 
-    public static List<Map.Entry<String, AtomicInteger>> sortedEntries(
-            Map<String, AtomicInteger> map) {
+    public static List<Map.Entry<String, Integer>> sortedEntries(
+            Map<String, Integer> map) {
         return map.entrySet()
                 .stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .collect(Collectors.toList());
     }
-    public void printMostFrequent(List<Map.Entry<String, AtomicInteger>> orderedList) {
-        for (int i = orderedList.size() - 1; i > orderedList.size() - 4; i--) {
+    public void printMostFrequent(List<Map.Entry<String, Integer>> orderedList) {
+        for (int i = 0; i < 10; i++) {
             System.out.println(orderedList.get(i).getKey() + " : "
                     + orderedList.get(i).getValue());
         }

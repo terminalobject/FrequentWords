@@ -14,9 +14,12 @@ public class App
     public static void main( String[] args )
 
     {
-        Stream stream = new Stream();
-            stream.getLines("aSampleFile");
-            stream.printMostFrequent(stream.sortedEntries(stream.getMap()));
+        //Stream stream = new Stream();
+        //    stream.getLines("aSampleFile");
+        //    stream.printMostFrequent(stream.sortedEntries(stream.getMap()));
+        Parser parser = new Parser();
+        parser.getLines("aSampleFile");
+        parser.printMostFrequent(parser.sortedEntries(parser.getMap()));
     }
 
 }
