@@ -10,9 +10,9 @@ import java.util.function.Consumer;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class Stream {
+public class Parser {
 
-    private Map<String, AtomicInteger> map = new HashMap();
+    private Map<String, Integer> map = new HashMap();
     private static char[] onlyLettersToLowercase = new char[65535];
     static {
         onlyLettersToLowercase[' '] = ' ';
@@ -24,7 +24,7 @@ public class Stream {
         }
     }
 
-    private Consumer<String> countWords = word -> map.computeIfAbsent(word, (w) -> new AtomicInteger(0)).incrementAndGet();
+    private Consumer<String> countWords = word -> ++map.computeIfAbsent(word, (w) -> new Integer);
 
     public void getLines(String filename) {
         long a, b;
@@ -71,7 +71,7 @@ public class Stream {
         }
     }
 
-    public Map<String, AtomicInteger> getMap() {
+    public Map<String, Integer> getMap() {
         return this.map;
     }
 
